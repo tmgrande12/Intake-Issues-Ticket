@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYR Wellness - Intake & Labeling</title>
+    <style>
+        /* Dark theme background matching the PDF */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #3b3745; 
+            color: #e0dce6; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            padding: 50px 20px; 
+            margin: 0;
+        }
+        
+        .logo-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .logo-container img {
+            max-width: 220px;
+            display: block;
+        }
+
+        .main-container { 
+            max-width: 650px; 
+            width: 100%; 
+        }
+
+        /* Top text mimicking the "To Our Friends at..." header */
+        .header-text {
+            font-size: 1.3em;
+            color: #b3b0bc;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .header-text span {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Blue bordered box mimicking the "ACTION REQUIRED" section */
+        .form-box {
+            background-color: #3d3946;
+            border: 1px solid #4a6b9c;
+            border-left: 5px solid #1a5ca8; /* Strong blue left accent */
+            border-radius: 6px;
+            padding: 30px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            color: #1a5ca8; /* Matching the bright blue text */
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group { 
+            margin-bottom: 22px; 
+        }
+
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 700; 
+            color: #ffffff; 
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Dark mode inputs */
+        select, input[type="text"], textarea, input[type="file"] { 
+            width: 100%; 
+            padding: 12px; 
+            background-color: #2b2833; 
+            color: #ffffff;
+            border: 1px solid #575366; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-family: inherit; 
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+        
+        select:focus, input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #1a5ca8;
+            background-color: #34303d;
+        }
+
+        textarea { 
+            resize: vertical; 
+            height: 90px; 
+        }
+
+        /* Bright blue action button */
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background-color: #0056b3; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            font-size: 16px; 
+            font-weight: 800; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+            margin-top: 10px;
+        }
+
+        button:hover { 
+            background-color: #004494; 
+        }
+
+        .help-text {
+            color: #a39fb0;
+            font-size: 0.85em;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* Styling for the dynamically generated item blocks */
+        .item-block {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #575366;
+        }
+        
+        .item-header {
+            color: #b3b0bc;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <!-- Ensure image_35d584.png is in the exact same folder as this HTML file -->
+        <img src="image_35d584.png" alt="AYR Wellness Logo">
+    </div>
+
+    <div class="main-container">
+        <div class="header-text">
+            Logistics Portal - <span>Intake & Labeling Issues</span>
+        </div>
+        
+        <div class="form-box">
+            <div class="section-title">
+                ⚠️ Action Required: Discrepancy Details
+            </div>
+            
+            <form id="ticketForm" enctype="multipart/form-data">
+                
+                <div class="form-group">
+                    <label for="dispensary">Reporting Dispensary</label>
+                    <select id="dispensary" required>
+                        <option value="">-- Select Dispensary --</option>
+                        <option value="Eatontown">Eatontown</option>
+                        <option value="Union">Union</option>
+                        <option value="Woodbridge">Woodbridge</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="facility">Originating Facility</label>
+                    <select id="facility" required>
+                        <option value="">-- Select Facility --</option>
+                        <option value="Cranbury">Cranbury</option>
+                        <option value="Woodbridge">Woodbridge</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemCount">Number of Problem Packages</label>
+                    <select id="itemCount" onchange="renderItemFields()" required>
+                        <option value="1">1 Package</option>
+                        <option value="2">2 Packages</option>
+                        <option value="3">3 Packages</option>
+                        <option value="4">4 Packages</option>
+                        <option value="5">5 Packages</option>
+                        <option value="6">6 Packages</option>
+                        <option value="7">7 Packages</option>
+                        <option value="8">8 Packages</option>
+                        <option value="9">9 Packages</option>
+                        <option value="10">10 Packages</option>
+                    </select>
+                </div>
+
+                <!-- Container where the dynamic package fields will appear -->
+                <div id="dynamicItemsContainer"></div>
+
+                <div class="form-group" style="margin-top: 20px; border-top: 1px solid #4a6b9c; padding-top: 20px;">
+                    <label for="photos">Upload Photos (Units & Box Fronts)</label>
+                    <input type="file" id="photos" accept="image/*" multiple>
+                    <small class="help-text">Upload clear photos of the physical unit(s) and the front of the box(es). *Note: Please ensure photos are manually attached to the drafted email before clicking send.*</small>
+                </div>
+
+                <button type="button" onclick="generateEmail()">Generate Ticket Email</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate the right number of inputs based on the dropdown
+        function renderItemFields() {
+            const count = parseInt(document.getElementById('itemCount').value);
+            const container = document.getElementById('dynamicItemsContainer');
+            container.innerHTML = ''; // Clear existing fields
+
+            for (let i = 1; i <= count; i++) {
+                container.innerHTML += `
+                    <div class="item-block">
+                        <div class="item-header">📦 Package #${i}</div>
+                        <div class="form-group">
+                            <label for="packageId_${i}">Full Metrc Number</label>
+                            <input type="text" id="packageId_${i}" placeholder="e.g., 1A40701000000..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="issue_${i}">Issue Description</label>
+                            <textarea id="issue_${i}" placeholder="Missing labels, incorrect items, etc." required></textarea>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Run this once when the page loads so 1 package shows up by default
+        window.onload = renderItemFields;
+
+        function generateEmail() {
+            const dispensary = document.getElementById('dispensary').value;
+            const facility = document.getElementById('facility').value;
+            const count = parseInt(document.getElementById('itemCount').value);
+
+            if (!dispensary || !facility) {
+                alert("Please select both a Reporting Dispensary and an Originating Facility.");
+                return;
+            }
+
+            let allItemsText = "";
+            let firstPackageId = "";
+
+            // Loop through the generated fields to gather the data
+            for (let i = 1; i <= count; i++) {
+                const pkgId = document.getElementById(`packageId_${i}`).value;
+                const issue = document.getElementById(`issue_${i}`).value;
+
+                if (!pkgId || !issue) {
+                    alert(`Please fill out the Full Metrc Number and Issue Description for Package #${i}.`);
+                    return;
+                }
+
+                if (i === 1) {
+                    firstPackageId = pkgId; // Save the first one for the subject line check
+                }
+
+                allItemsText += `--- PACKAGE #${i} ---\n`;
+                allItemsText += `Full Metrc Number: ${pkgId}\n`;
+                allItemsText += `Issue Description:\n${issue}\n\n`;
+            }
+
+            // Route "To" and Logistics "CC" emails based on the Originating Facility
+            let toEmails = ""; 
+            let logisticsCcEmails = "";
+
+            if (facility === "Woodbridge") {
+                toEmails = "cat.alava@ayrwellness.com,Briana.Gaboff@ayrwellness.com";
+                logisticsCcEmails = "thomas.grande@ayrwellness.com,zoe.rothenberg@ayrwellness.com"; 
+            } else if (facility === "Cranbury") {
+                toEmails = "damian.osorio@ayrwellness.com,olivia.kurz@ayrwellness.com";
+                logisticsCcEmails = "thomas.grande@ayrwellness.com,nicholas.mokar@ayrwellness.com";
+            }
+            
+            // Route additional "CC" email based on the Reporting Dispensary
+            let dispoCcEmail = "";
+            if (dispensary === "Eatontown") {
+                dispoCcEmail = "ayreatontowninventory@ayrwellness.com";
+            } else if (dispensary === "Union") {
+                dispoCcEmail = "ayrunioninventory@ayrwellness.com";
+            } else if (dispensary === "Woodbridge") {
+                dispoCcEmail = "ayrwoodbridgeinventory@ayrwellness.com";
+            }
+
+            // Combine both CC groups
+            const ccEmails = logisticsCcEmails + "," + dispoCcEmail;
+
+            // Build subject line dynamically based on item count
+            let subjectString = "";
+            if (count > 1) {
+                subjectString = `Intake Issue: ${dispensary} Dispensary - Multiple Packages`;
+            } else {
+                subjectString = `Intake Issue: ${dispensary} Dispensary - Pkg ${firstPackageId}`;
+            }
+            const subject = encodeURIComponent(subjectString);
+            
+            const body = encodeURIComponent(
+                `New Intake & Labeling Issue(s) Reported\n\n` +
+                `Reporting Dispensary: ${dispensary}\n` +
+                `Originating Facility: ${facility}\n` +
+                `Total Packages Flagged: ${count}\n\n` +
+                allItemsText +
+                `[Note: If photos were uploaded, please ensure they are manually attached before clicking send]`
+            );
+
+            // Open the default email client with To, CC, Subject, and Body all formatted
+            window.location.href = `mailto:${toEmails}?cc=${ccEmails}&subject=${subject}&body=${body}`;
+        }
+    </script>
+</body>
+</html>
