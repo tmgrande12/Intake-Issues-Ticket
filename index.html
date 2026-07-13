@@ -38,6 +38,7 @@
             color: #b3b0bc;
             margin-bottom: 20px;
             font-weight: 600;
+            text-align: center;
         }
         .header-text span {
             color: #ffffff;
@@ -207,10 +208,15 @@
                 <!-- Container where the dynamic package fields will appear -->
                 <div id="dynamicItemsContainer"></div>
 
+                <!-- Replaced File Uploader with Photo Instructions -->
                 <div class="form-group" style="margin-top: 20px; border-top: 1px solid #4a6b9c; padding-top: 20px;">
-                    <label for="photos">Upload Photos (Units & Box Fronts)</label>
-                    <input type="file" id="photos" accept="image/*" multiple>
-                    <small class="help-text">Upload clear photos of the physical unit(s) and the front of the box(es). *Note: Please ensure photos are manually attached to the drafted email before clicking send.*</small>
+                    <label>📸 Photo Attachment Reminder</label>
+                    <div style="background-color: #2b2833; padding: 15px; border-radius: 4px; border: 1px solid #575366;">
+                        <span style="color: #e0dce6; font-size: 0.9em; line-height: 1.4; display: block;">
+                            Please ensure you have clear photos of the <strong>physical unit(s)</strong> and the <strong>front of the box(es)</strong>.<br><br>
+                            <strong style="color: #ffb74d;">*Note: You will need to manually attach these photos to the email that opens when you click the button below.</strong>
+                        </span>
+                    </div>
                 </div>
 
                 <button type="button" onclick="generateEmail()">Generate Ticket Email</button>
@@ -231,6 +237,7 @@
                         <div class="item-header">📦 Package #${i}</div>
                         <div class="form-group">
                             <label for="packageId_${i}">Full Metrc Number</label>
+                            <small class="help-text" style="margin-bottom: 8px; margin-top: -5px; color: #ffb74d;">*Important: Use the transfer package number, NOT the Source Package ID.</small>
                             <input type="text" id="packageId_${i}" placeholder="e.g., 1A40701000000..." required>
                         </div>
                         <div class="form-group">
@@ -317,7 +324,7 @@
                 `Originating Facility: ${facility}\n` +
                 `Total Packages Flagged: ${count}\n\n` +
                 allItemsText +
-                `[Note: If photos were uploaded, please ensure they are manually attached before clicking send]`
+                `[Note: Please ensure photos of the physical units and box fronts are manually attached to this email before sending.]`
             );
 
             // Open the default email client with To, CC, Subject, and Body all formatted
